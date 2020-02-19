@@ -6,7 +6,10 @@
 #include "pcb.h"
 #include "ram.h"
 
-PCB *head, *tail;
+struct QUEUE_NODE {
+    PCB *thisPCB;
+    struct QUEUE_NODE *next;
+} *head = NULL, *tail = NULL;
 
 void addToReady(PCB *pcb);
 
@@ -31,11 +34,20 @@ int myinit(char *fileName){
 }
 
 void addToReady(PCB *pcb){
+    struct QUEUE_NODE *newPCB = malloc(sizeof(struct QUEUE_NODE));
+    newPCB->thisPCB = pcb;
 
+    if(head == NULL){
+        head = newPCB;
+        tail = newPCB;
+    }else{
+        tail->next = newPCB;
+        tail->thisPCB = pcb;
+    }
 }
 
 // TODO
-//scheduler(){
+// scheduler(){
 //
 // }
 
