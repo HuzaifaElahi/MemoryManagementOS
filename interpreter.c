@@ -1,5 +1,6 @@
 #include "interpreter.h"
 #include "shellmemory.h"
+#include "kernel.h"
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -151,6 +152,29 @@ int print(const char *key)
     return 0;
 }
 
+int exec(char *programs[]){
+    char* progFile1 = programs[1]; //programs[0] = exec
+    char* progFile2 = programs[2];
+    char *progFile3 = programs[3];
+
+    if (progFile1 == NULL){
+        myinit(progFile1);
+    }
+
+    if (progFile2 == NULL){
+        myinit(progFile2);
+    }
+
+    if (progFile3 == NULL){
+        myinit(progFile3);
+    }
+    
+    // TODO
+    // scheduler()
+
+    return 0;
+}
+
 int interpret(char *raw_input)
 {
     char **tokens = tokenize(raw_input);
@@ -178,7 +202,9 @@ int interpret(char *raw_input)
             free(tokens);
             return 1;
         }
-        free(raw_input);
+        if (in_file_flag == 0) {
+            free(raw_input);
+        }
         free(tokens);
         return quit();
     };
@@ -217,6 +243,18 @@ int interpret(char *raw_input)
             free(tokens);
         }
         int result = run(tokens[1]);
+        free(tokens);
+        return result;
+    }
+
+    if (strcmp(tokens[0], "exec") == 0)
+    {
+        if (!(tokens[1] != NULL && tokens[4] == NULL))
+        {
+            printf("exec: Malformed command\n");
+            free(tokens);
+        }
+        int result = exec(tokens);
         free(tokens);
         return result;
     }

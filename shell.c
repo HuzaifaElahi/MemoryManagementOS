@@ -7,8 +7,8 @@
 
 int shellUI()
 {
-    printf("Welcome to the <your name goes here> shell!\n"
-           "Version 1.0 Created January 2020\n");
+    printf("Welcome to the Muhammad Huzaifa Elahi shell!\n"
+           "Version 2.0 Updated February 2020\n");
 
     shell_memory_initialize();
 
