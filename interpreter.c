@@ -23,8 +23,7 @@ char **tokenize(char *str)
             flag = 0;
         }
     }
-    char **ret_arr =
-        (char **)malloc(sizeof(char *) * (num_tokens + 1));
+    char **ret_arr = (char **)calloc((num_tokens+1), sizeof(char *) * (num_tokens + 1));
 
     if (ret_arr == NULL)
     {
@@ -153,24 +152,16 @@ int print(const char *key)
 }
 
 int exec(char *programs[]){
-    char* progFile1 = programs[1]; //programs[0] = exec
-    char* progFile2 = programs[2];
-    char *progFile3 = programs[3];
-
-    if (progFile1 == NULL){
-        myinit(progFile1);
-    }
-
-    if (progFile2 == NULL){
-        myinit(progFile2);
-    }
-
-    if (progFile3 == NULL){
-        myinit(progFile3);
+    int errCode;
+    int progID = 1;
+    in_file_flag = 1;
+    while(programs[progID] != NULL){
+        errCode = myinit(programs[progID]);
+        progID++;
     }
     
-    // TODO
-    // scheduler()
+    scheduler();
+    in_file_flag = 0;
 
     return 0;
 }

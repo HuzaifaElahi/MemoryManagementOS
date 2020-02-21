@@ -3,4 +3,6 @@
 
 int addToRAM(FILE *p, int *start, int *end);
 
+extern char *ram[1000];
+
 #endif
