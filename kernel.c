@@ -51,15 +51,6 @@ void addToReady(PCB *pcb){
     }
 }
 
-/*  run(quanta) in cpu.c to run script by coping quanta
-    lines of code from ram[] using IP into the IR which 
-    then calls interpreter(IR)
-    This executes quanta instructions from script or until script file
-    is at end
-    if program is not at end then PCB PC pointer is updated with IP
-    value and PCB is placed at tail of ready queue
-    if program is at end then PCB terminates
-*/
 void scheduler(){
 	struct QUEUE_NODE *oldhead;
     cpu = malloc(sizeof(CPU));
@@ -86,4 +77,5 @@ void scheduler(){
         }
         index++;
     }
+    head = NULL;
 }

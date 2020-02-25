@@ -76,6 +76,29 @@ char **tokenize(char *str)
     return ret_arr;
 }
 
+int isScriptLoaded(char *programs[]){
+    // Determine how many scripts are being loaded
+	int scriptNum = 1;
+	if(programs[2] != NULL)	scriptNum = 2;
+	if(programs[3] != NULL)	scriptNum = 3;
+
+    // Check that scripts don't overlap
+	if(scriptNum == 1) return 0;
+	else if(scriptNum >= 2 && strcmp(programs[1], programs[2]) == 0) {
+		printf("Error: Script %s already loaded\n", programs[1]);
+		return 1;
+	} else if(scriptNum == 3 && strcmp(programs[1], programs[3]) == 0) {
+		printf("Error: Script %s already loaded\n", programs[1]);
+		return 1;
+	} else if(scriptNum == 3 && strcmp(programs[2], programs[3]) == 0) {
+		printf("Error: Script %s already loaded\n", programs[3]);
+		return 1;
+	}
+
+	return 0;
+}
+
+
 int in_file_flag = 0;
 int interpret(char *raw_input);
 
@@ -87,7 +110,8 @@ int help()
            "quit            Exits / terminates the shell with \"Bye!\"\n"
            "set VAR STRING  Assigns a value to shell memory\n"
            "print VAR       Displays the STRING assigned to VAR\n"
-           "run SCRIPT.TXT  Executes the file SCRIPT.TXT\n");
+           "run SCRIPT.TXT  Executes the file SCRIPT.TXT\n"
+           "exec S1 S2 S3	Concurrently execute 1 to 3 scripts\n");
     return 0;
 }
 
@@ -152,9 +176,11 @@ int print(const char *key)
 }
 
 int exec(char *programs[]){
-    int errCode;
+    int errCode = 0;
     int progID = 1;
     in_file_flag = 1;
+
+    if(isScriptLoaded(programs)) return 0;
     while(programs[progID] != NULL){
         errCode = myinit(programs[progID]);
         progID++;
@@ -163,7 +189,7 @@ int exec(char *programs[]){
     scheduler();
     in_file_flag = 0;
 
-    return 0;
+    return errCode;
 }
 
 int interpret(char *raw_input)
