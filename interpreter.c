@@ -1,3 +1,7 @@
+/*
+    Author: Muhammad Huzaifa Elahi
+    ID: 260726386
+*/
 #include "interpreter.h"
 #include "shellmemory.h"
 #include "kernel.h"
@@ -180,12 +184,14 @@ int exec(char *programs[]){
     int progID = 1;
     in_file_flag = 1;
 
+    // Ensure Scripts aren't repeated then load into RAM
     if(isScriptLoaded(programs)) return 0;
     while(programs[progID] != NULL){
         errCode = myinit(programs[progID]);
         progID++;
     }
     
+    // Run the Programs
     scheduler();
     in_file_flag = 0;
 

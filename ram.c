@@ -1,3 +1,7 @@
+/*
+    Author: Muhammad Huzaifa Elahi
+    ID: 260726386
+*/
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -8,12 +12,12 @@
 int addToRAM(FILE *p, int *start, int *end){
     int currentLine = 0;
     char buffer[1000];
-    while(!feof(p)){
 
-        if(fgets(buffer, 1000, p) == NULL){
-			printf("Unable to read file input, please try again\n");
-			return 1;
-		}
+    // Add Lines from File into RAM & Ensure Overflow is avoided
+    while(!feof(p)){
+        char *line = NULL;
+        size_t linecap = 0;
+        getline(&line, &linecap, p);
 
         while(ram[currentLine] != NULL){
             currentLine++;
@@ -23,7 +27,7 @@ int addToRAM(FILE *p, int *start, int *end){
                 return 1;
             }
         }
-        ram[currentLine] = strdup(buffer);
+        ram[currentLine] = strdup(line);
 
         *end = currentLine;
         currentLine++;

@@ -1,3 +1,7 @@
+/*
+    Author: Muhammad Huzaifa Elahi
+    ID: 260726386
+*/
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
